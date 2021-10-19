@@ -1,0 +1,19 @@
+version: '2.4'
+services:
+  db:
+    image: mysql
+    container_name: mysqlDatabase
+    environment: 
+      MYSQL_ROOT_PASSWORD: squareroot
+      MYSQL_DATABASE_URL: jdbc:mysql://localhost:3306/gamesalesfinderdb?&createDatabaseIfNotExist=true
+    ports: 
+      - "3306:3306"
+    volumes:
+      - mysql_data:/var/lib/mysql
+    networks:
+      - gamesalesfinder-network
+volumes:
+  mysql_data:
+networks:
+  gamesalesfinder-network:
+    driver: bridge
