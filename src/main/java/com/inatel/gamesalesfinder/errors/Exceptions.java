@@ -15,4 +15,12 @@ public class Exceptions {
   protected String details;
   protected String developerMessage;
   protected Date timestamp;
+
+  public Exceptions(String title, int status, String details, String developerMessage) {
+    this.title = title;
+    this.status = status;
+    this.details = details;
+    this.developerMessage = developerMessage;
+    this.timestamp = new Date();
+  }
 }

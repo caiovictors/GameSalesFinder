@@ -8,4 +8,5 @@ public class SecurityConstants {
   public static final String SIGN_UP_URL = "/auth/signup";
 
   public static final String BASE_URL = "https://www.cheapshark.com/api/1.0/deals?sortBy=Price&exact=1&title=";
+  public static final String STORE_URL = "https://www.cheapshark.com/api/1.0/stores";
 }

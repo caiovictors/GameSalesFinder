@@ -14,7 +14,7 @@ public class Game {
 	private String internalName;
 	private String title;
 	private String metacriticLink;
-	private String dealID;
+	// private String dealID;
 	private String storeID;
 	private String gameID;
 	private String salePrice;

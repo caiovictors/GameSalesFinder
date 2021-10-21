@@ -30,14 +30,6 @@ public class SignUpService {
       return ResponseEntity.status(HttpStatus.CONFLICT).body(exception);
     }
 
-    PasswordMatchService passwordMatchService = new PasswordMatchService();
-
-    if (!passwordMatchService.isPasswordMatch(signUpForm)) {
-      Exceptions exception = new Exceptions("Bad Request", 400, "Passwords don't match",
-          "Password and password confirmation must match", new Date());
-      return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(exception);
-    }
-
     String encodedPassword = this.passwordEncoder.encode(signUpForm.getPassword());
 
     User user = userRepository.save(new User(signUpForm.getName(), signUpForm.getEmail(), encodedPassword));

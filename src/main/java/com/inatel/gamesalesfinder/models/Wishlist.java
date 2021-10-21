@@ -20,15 +20,13 @@ public class Wishlist {
   @GeneratedValue(strategy = GenerationType.AUTO)
   private Long id;
 
-  private Integer wishlistId;
   private String gameName;
 
   @ManyToOne
   @JoinColumn(name = "user_id", nullable = false, updatable = false)
   private User user;
 
-  public Wishlist(Integer wishlistId, String gameName, User user) {
-    this.wishlistId = wishlistId;
+  public Wishlist(String gameName, User user) {
     this.gameName = gameName;
     this.user = user;
   }
