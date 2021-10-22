@@ -16,7 +16,6 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 
 @SpringBootTest
-// @RunWith(MockitoJUnitRunner.class)
 public class FindGameControllerTests {
   private Authentication authentication;
   private SecurityContext securityContext;

@@ -10,11 +10,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
-// import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 @RestController
 @RequestMapping("/game")
-// @SecurityRequirement(name = "bearerAuth")
 @Api(value = "Game Finder", description = "Find game best price by title", tags = { "Game Finder" })
 public class GameFinderController {
 

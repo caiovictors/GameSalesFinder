@@ -7,7 +7,6 @@ import com.inatel.gamesalesfinder.models.Store;
 import lombok.Data;
 
 @Data
-// @AllArgsConstructor
 public class WishlistGameDTO {
   private Long wishlistGameId;
   private String gameName;

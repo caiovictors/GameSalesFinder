@@ -66,51 +66,6 @@ public class WishlistControllerTests {
     Assert.assertEquals(201, response.getStatusCodeValue());
   }
 
-  // @Test
-  // public void shouldNotAddToWishlist() {
-  // User user = new ObjectGenerator().generateUser();
-  // Wishlist wishlist = new ObjectGenerator().generateWishlistGame();
-
-  // WishlistForm wishlistForm = new WishlistForm();
-  // wishlistForm.setGameName("Mad Max");
-
-  // when(userRepository.findByEmail(Mockito.any())).thenReturn(Optional.of(user));
-  // when(wishlistRepository.save(wishlist)).thenReturn(wishlist);
-  // when(wishlistRepository.findByGameName(wishlistForm.getGameName())).thenReturn(Optional.of(wishlist));
-  // // when()
-  // // when(wishlistRepository.findByUserId(id)).thenReturn(new Wishlist());
-  // //
-  // when(wishlistRepository.findByGameNameAndUserId(wishlistForm.getGameName(),user.getId()).thenReturn(Optional.of(wishlist)));
-  // //
-  // when(wishlistRepository.findById(wishlist.getId()).thenReturn(Optional()));
-
-  // // Student student = factory.studentBuilder();
-  // // Discipline discipline = factory.disciplineBuilder();
-  // // DisciplinesForm disciplinesForm = new DisciplinesForm("Mathematics");
-  // //
-  // when(studentRepository.findByEmail(Mockito.any())).thenReturn(Optional.of(student));
-  // // when(disciplineRepository.findByDisciplineNameAndStudent("Mathematics",
-  // // student.getId())).thenReturn(Optional.of(discipline));
-
-  // ResponseEntity<?> response = new
-  // AddGameToWishlistService().execute(wishlistRepository, userRepository,
-  // wishlistForm);
-  // Assert.assertEquals(409, response.getStatusCodeValue());
-
-  // DisciplinesForm disciplinesForm = new DisciplinesForm("Mathematics");
-  // when(studentRepository.findByEmail(Mockito.any())).thenReturn(Optional.of(student));
-  // when(disciplineRepository.findByDisciplineNameAndStudent("Mathematics",
-  // student.getId())).thenReturn(Optional.of(discipline));
-
-  // createDisciplineService = new CreateDisciplineService(studentRepository,
-  // disciplineRepository, disciplinesForm);
-  // ResponseEntity<?> createDisciplineServiceExecution =
-  // createDisciplineService.run();
-
-  // assertEquals(createDisciplineServiceExecution.getStatusCode(),
-  // HttpStatus.CONFLICT);
-  // }
-
   @Test
   public void shouldGetWishlist() {
     User user = new ObjectGenerator().generateUser();
@@ -124,23 +79,6 @@ public class WishlistControllerTests {
     ResponseEntity<?> response = new GetGameFromWishlistService().execute(userRepository, wishlistRepository, pageable);
     Assert.assertEquals(200, response.getStatusCodeValue());
   }
-
-  // @Test
-  // public void shouldNotGetWishlist() {
-  // User user = new ObjectGenerator().generateUser();
-  // Pageable pageable = PageRequest.of(0, 10);
-  // // List<Wishlist> wishlist = new ObjectGenerator().generateWishlist();
-  // // Page<Wishlist> wishlistPaged = new PageImpl<Wishlist>(wishlist);
-
-  // when(userRepository.findByEmail(Mockito.any())).thenReturn(Optional.of(user));
-  // // when(wishlistRepository.findByUserId("2").thenReturn(Optional.empty()));
-  // when(wishlistRepository.findByUserId("2", pageable)).thenReturn(null);
-
-  // ResponseEntity<?> response = new
-  // GetGameFromWishlistService().execute(userRepository, wishlistRepository,
-  // pageable);
-  // Assert.assertEquals(200, response.getStatusCodeValue());
-  // }
 
   @Test
   public void shouldDeleteGameFromWishlist() {

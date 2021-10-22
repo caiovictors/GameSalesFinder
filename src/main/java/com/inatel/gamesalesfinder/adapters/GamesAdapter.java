@@ -11,9 +11,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 
-import lombok.extern.log4j.Log4j2;
-
-@Log4j2
 public class GamesAdapter {
   public ResponseEntity<?> getGames(String title) {
     RestTemplate restTemplate = new RestTemplate();
