@@ -1,5 +1,5 @@
-# 🎮 GameSalesFinder
-Api to find best game prices using Java Spring Boot 
+<h1 align="center">🎮 GameSalesFinder</h1>
+<h3 align="center">API to find the best prices for games using Java Spring Boot</h3> 
 
 ***
 ## ℹ About
