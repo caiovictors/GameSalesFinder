@@ -1,7 +1,8 @@
-package com.inatel.gamesalesfinder.adapter;
+package com.inatel.gamesalesfinder.adapters;
 
 import java.util.List;
 
+import com.inatel.gamesalesfinder.errors.Exceptions;
 import com.inatel.gamesalesfinder.models.Game;
 import com.inatel.gamesalesfinder.variables.SecurityConstants;
 import org.springframework.core.ParameterizedTypeReference;
@@ -14,19 +15,18 @@ import lombok.extern.log4j.Log4j2;
 
 @Log4j2
 public class GamesAdapter {
-  public List<Game> getGames(String title) {
+  public ResponseEntity<?> getGames(String title) {
     RestTemplate restTemplate = new RestTemplate();
 
     try {
       ResponseEntity<List<Game>> response = restTemplate.exchange(SecurityConstants.BASE_URL + title, HttpMethod.GET,
           null, new ParameterizedTypeReference<List<Game>>() {
           });
-      return response.getBody();
+      return response;
     } catch (Exception e) {
-      ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).build();
-      log.info("Error on connection with external api");
+      Exceptions exception = new Exceptions("Service Unavailable", 503, "External Api is unavailable",
+          "CheapShark Api not responding");
+      return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(exception);
     }
-
-    return null;
   }
 }

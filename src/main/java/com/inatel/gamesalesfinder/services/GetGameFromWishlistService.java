@@ -13,9 +13,12 @@ import com.inatel.gamesalesfinder.repository.WishlistRepository;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 public class GetGameFromWishlistService {
+  ResponseEntity<?> apiNotWorking = null;
+
   public ResponseEntity<?> execute(UserRepository userRepository, WishlistRepository wishlistRepository,
       Pageable paging) {
     GetUserByTokenService addGameToWishlistByTokenService = new GetUserByTokenService();
@@ -28,10 +31,18 @@ public class GetGameFromWishlistService {
     wishlistPage.getContent().forEach(game -> {
       ResponseEntity<?> foundGame = new FindGameService().findGame(game.getGameName());
 
-      BestPriceGame bestPriceGame = (BestPriceGame) foundGame.getBody();
-      wishlistGame.add(new WishlistGameDTO(game.getId(), bestPriceGame.getGame().getTitle(),
-          bestPriceGame.getGame().getSalePrice(), bestPriceGame.getStores()));
+      if (foundGame.getStatusCode() != HttpStatus.OK) {
+        apiNotWorking = ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(foundGame.getBody());
+      } else {
+        BestPriceGame bestPriceGame = (BestPriceGame) foundGame.getBody();
+        wishlistGame.add(new WishlistGameDTO(game.getId(), bestPriceGame.getGame().getTitle(),
+            bestPriceGame.getGame().getSalePrice(), bestPriceGame.getStores()));
+      }
     });
+
+    if (apiNotWorking != null) {
+      return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE).body(apiNotWorking.getBody());
+    }
 
     return ResponseEntity.ok(wishlistGame);
   }

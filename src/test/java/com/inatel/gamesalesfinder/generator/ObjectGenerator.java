@@ -11,6 +11,11 @@ public class ObjectGenerator {
     return new User("1", "Caio Victor", "caioteste@gmail.com", "password");
   }
 
+  public Wishlist generateWishlistGame() {
+    User user = generateUser();
+    return new Wishlist(1L, "Mad Max", user);
+  }
+
   public List<Wishlist> generateWishlist() {
     return new ArrayList<Wishlist>();
   }

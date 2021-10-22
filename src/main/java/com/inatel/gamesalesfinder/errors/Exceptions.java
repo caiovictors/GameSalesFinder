@@ -2,6 +2,8 @@ package com.inatel.gamesalesfinder.errors;
 
 import java.util.Date;
 
+import org.springframework.http.ResponseEntity;
+
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.experimental.SuperBuilder;
@@ -22,5 +24,9 @@ public class Exceptions {
     this.details = details;
     this.developerMessage = developerMessage;
     this.timestamp = new Date();
+  }
+
+  public ResponseEntity<Exceptions> throwException() {
+    return ResponseEntity.status(this.status).body(this);
   }
 }

@@ -2,7 +2,7 @@ package com.inatel.gamesalesfinder.services;
 
 import java.util.List;
 
-import com.inatel.gamesalesfinder.adapter.GamesAdapter;
+import com.inatel.gamesalesfinder.adapters.GamesAdapter;
 import com.inatel.gamesalesfinder.errors.Exceptions;
 import com.inatel.gamesalesfinder.models.BestPriceGame;
 import com.inatel.gamesalesfinder.models.Game;
@@ -14,7 +14,14 @@ import org.springframework.http.ResponseEntity;
 public class FindGameService {
   public ResponseEntity<?> findGame(String title) {
     GamesAdapter gamesAdapter = new GamesAdapter();
-    List<Game> availableGames = gamesAdapter.getGames(title);
+    ResponseEntity<?> findGames = gamesAdapter.getGames(title);
+
+    if (findGames.getStatusCode() != HttpStatus.OK) {
+      return findGames;
+    }
+
+    @SuppressWarnings("unchecked")
+    List<Game> availableGames = (List<Game>) findGames.getBody();
 
     if (availableGames == null || availableGames.isEmpty() || title == "") {
       Exceptions exception = new Exceptions("Not Found", 404, "Game not found", "Game title not found or mistyped");

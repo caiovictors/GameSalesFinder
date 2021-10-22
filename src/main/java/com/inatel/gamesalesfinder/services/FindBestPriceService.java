@@ -11,7 +11,9 @@ public class FindBestPriceService {
     Double bestPrice = Double.parseDouble(games.get(0).getSalePrice());
 
     FindAvailableStoresService availableStores = new FindAvailableStoresService();
-    List<Store> stores = availableStores.findStore();
+
+    @SuppressWarnings("unchecked")
+    List<Store> stores = (List<Store>) availableStores.findStore().getBody();
     List<Store> gameInSaleStores = new ArrayList<Store>();
 
     MatchStoreService matchStoreService = new MatchStoreService();

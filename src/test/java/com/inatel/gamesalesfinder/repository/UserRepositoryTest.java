@@ -23,7 +23,7 @@ public class UserRepositoryTest {
 
   @Test
   public void shouldNotFindByEmail() {
-    String email = "sarinhaat10@hotmail.com";
+    String email = "sarah@outlook.com";
     Optional<User> user = userRepository.findByEmail(email);
     Assert.assertTrue(user.isEmpty());
   }

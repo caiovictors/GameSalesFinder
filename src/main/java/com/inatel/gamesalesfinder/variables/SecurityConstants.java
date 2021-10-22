@@ -9,5 +9,8 @@ public class SecurityConstants {
 
   public static final String BASE_URL = "https://www.cheapshark.com/api/1.0/deals?sortBy=Price&exact=1&title=";
   public static final String STORE_URL = "https://www.cheapshark.com/api/1.0/stores";
-  public static final String SWAGGER_URL = "/swagger-ui/**";
+  public static final String SWAGGER_URL1 = "/swagger-ui/**";
+  public static final String SWAGGER_URL2 = "/webjars/**";
+  public static final String SWAGGER_URL3 = "/v2/**";
+  public static final String SWAGGER_URL4 = "/swagger-resources/**";
 }
