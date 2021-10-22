@@ -1,11 +1,8 @@
 package com.inatel.gamesalesfinder.controller;
 
-import java.util.List;
-
 import javax.transaction.Transactional;
 
-import com.inatel.gamesalesfinder.dto.WishlistGameDTO;
-import com.inatel.gamesalesfinder.models.Wishlist;
+import com.inatel.gamesalesfinder.forms.WishlistForm;
 import com.inatel.gamesalesfinder.repository.UserRepository;
 import com.inatel.gamesalesfinder.repository.WishlistRepository;
 import com.inatel.gamesalesfinder.services.AddGameToWishlistService;
@@ -24,19 +21,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.AllArgsConstructor;
+
 @RestController
 @RequestMapping("/wishlist")
+@AllArgsConstructor
 public class WishlistController {
   private WishlistRepository wishlistRepository;
   private UserRepository userRepository;
 
-  public WishlistController(WishlistRepository wishlistRepository, UserRepository userRepository) {
-    this.wishlistRepository = wishlistRepository;
-    this.userRepository = userRepository;
-  }
-
   @GetMapping()
-  public List<WishlistGameDTO> getUserWishlist(@RequestParam(required = false, defaultValue = "0") int page,
+  public ResponseEntity<?> getUserWishlist(@RequestParam(required = false, defaultValue = "0") int page,
       @RequestParam(required = false, defaultValue = "10") int size) {
 
     Pageable paging = PageRequest.of(page, size);
@@ -46,8 +41,8 @@ public class WishlistController {
 
   @PostMapping
   @Transactional
-  public ResponseEntity<?> addGameToWishlist(@RequestBody Wishlist wishlist) {
-    return new AddGameToWishlistService().execute(wishlistRepository, userRepository, wishlist);
+  public ResponseEntity<?> addGameToWishlist(@RequestBody WishlistForm wishlistForm) {
+    return new AddGameToWishlistService().execute(wishlistRepository, userRepository, wishlistForm);
   }
 
   @DeleteMapping("/{id}")

@@ -16,7 +16,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
 
 public class GetGameFromWishlistService {
-  public List<WishlistGameDTO> execute(UserRepository userRepository, WishlistRepository wishlistRepository,
+  public ResponseEntity<?> execute(UserRepository userRepository, WishlistRepository wishlistRepository,
       Pageable paging) {
     GetUserByTokenService addGameToWishlistByTokenService = new GetUserByTokenService();
     Optional<User> user = addGameToWishlistByTokenService.run(userRepository);
@@ -33,6 +33,6 @@ public class GetGameFromWishlistService {
           bestPriceGame.getGame().getSalePrice(), bestPriceGame.getStores()));
     });
 
-    return wishlistGame;
+    return ResponseEntity.ok(wishlistGame);
   }
 }

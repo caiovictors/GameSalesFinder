@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import com.inatel.gamesalesfinder.dto.WishlistDTO;
 import com.inatel.gamesalesfinder.errors.Exceptions;
+import com.inatel.gamesalesfinder.forms.WishlistForm;
 import com.inatel.gamesalesfinder.models.User;
 import com.inatel.gamesalesfinder.models.Wishlist;
 import com.inatel.gamesalesfinder.repository.UserRepository;
@@ -17,11 +18,12 @@ public class AddGameToWishlistService {
   boolean gameIsPresent = false;
 
   public ResponseEntity<?> execute(WishlistRepository wishlistRepository, UserRepository userRepository,
-      Wishlist wishlist) {
+      WishlistForm wishlistForm) {
+    String gameName = wishlistForm.getGameName();
     GetUserByTokenService userByToken = new GetUserByTokenService();
     Optional<User> user = userByToken.run(userRepository);
 
-    ResponseEntity<?> foundGame = new FindGameService().findGame(wishlist.getGameName());
+    ResponseEntity<?> foundGame = new FindGameService().findGame(gameName);
     if (foundGame.getStatusCode() != HttpStatus.OK) {
       return foundGame;
     }
@@ -29,19 +31,19 @@ public class AddGameToWishlistService {
     List<Optional<Wishlist>> wishlistList = wishlistRepository.findByUserId(user.get().getId());
 
     wishlistList.forEach(game -> {
-      if (game.get().getGameName().equals(wishlist.getGameName())) {
+      if (game.get().getGameName().equals(gameName)) {
         gameIsPresent = true;
       }
     });
 
     if (gameIsPresent) {
       Exceptions exception = new Exceptions("Confict", 409, "Game already on wishlist",
-          "The game: " + wishlist.getGameName() + " already exists on wishlist");
+          "The game: " + gameName + " already exists on wishlist");
       return ResponseEntity.status(HttpStatus.CONFLICT).body(exception);
     }
 
-    wishlistRepository.save(new Wishlist(wishlist.getGameName(), user.get()));
-    WishlistDTO wishlistDTO = new WishlistDTO(wishlist.getGameName(), user.get());
+    wishlistRepository.save(new Wishlist(gameName, user.get()));
+    WishlistDTO wishlistDTO = new WishlistDTO(gameName, user.get());
 
     return ResponseEntity.status(HttpStatus.CREATED).body(wishlistDTO);
   }
