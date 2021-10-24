@@ -1,19 +1,36 @@
 version: '2.4'
+x-database-variables: &database-variables
+  SPRING_DATASOURCE_URL: jdbc:mysql://gamesalesfinderdb:3306/gamesalesfinderdb?&createDatabaseIfNotExist=true
+  SPRING_DATASOURCE_USERNAME: root
+  SPRING_DATASOURCE_PASSWORD: root
+  
 services:
-  db:
+  gamesalesfinderdb:
     image: mysql
-    container_name: mysqlDatabase
-    environment: 
-      MYSQL_ROOT_PASSWORD: squareroot
-      MYSQL_DATABASE_URL: jdbc:mysql://localhost:3306/gamesalesfinderdb?&createDatabaseIfNotExist=true
+    container_name: gamesalesfinderdb
+    environment:
+      - MYSQL_ROOT_PASSWORD=root
+      - MYSQL_DATABASE=bootdb
+      # - MYSQL_USER=gamesalesfinderdb
+      # - MYSQL_PASSWORD=12345678
     ports: 
       - "3306:3306"
     volumes:
-      - mysql_data:/var/lib/mysql
-    networks:
-      - gamesalesfinder-network
+      - gamesalesfinder_data:/var/lib/mysql
+
+
+  game-sales-finder:
+    image: caiovictors/game-sales-finder:latest
+    container_name: game-sales-finder
+    deploy:
+      restart_policy:
+        condition: on-failure
+    ports:
+    - "8080:8080"
+    environment:
+      <<: *database-variables
+    depends_on:
+      - gamesalesfinderdb
+
 volumes:
-  mysql_data:
-networks:
-  gamesalesfinder-network:
-    driver: bridge
+  gamesalesfinder_data:

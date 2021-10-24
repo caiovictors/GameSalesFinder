@@ -35,7 +35,11 @@ The Game Sales Finder is an api that uses the <a href="https://apidocs.cheapshar
 ```bash
 $ git clone https://github.com/caiovictors/GameSalesFinder.git
 ```
-* Start docker
+* Start docker 🐋
+```bash
+$ docker-compose up -d
+```
+* Check the documentation bellow to use the routes and enjoy! ✌🏻
 
 ## 📄 Documentation
 
