@@ -12,14 +12,13 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
 public class RemoveGameFromWishlistService {
-  public ResponseEntity<?> delete(WishlistRepository wishlistRepository, UserRepository userRepository, Long id) {
-    GetUserByTokenService userByToken = new GetUserByTokenService();
-    Optional<User> user = userByToken.run(userRepository);
+  public ResponseEntity<?> delete(WishlistRepository wishlistRepository, UserRepository userRepository, Long id,
+      User user) {
     Optional<Wishlist> wishlist = wishlistRepository.findById(id);
 
     // Check if game is present on wishlist and if wishlist belongs to the user
     // authenticated
-    if (wishlist.isPresent() && (wishlist.get().getUser().getId() == user.get().getId())) {
+    if (wishlist.isPresent() && (wishlist.get().getUser().getId() == user.getId())) {
       wishlistRepository.delete(wishlist.get());
 
       return ResponseEntity.status(HttpStatus.OK).body(wishlist.get());

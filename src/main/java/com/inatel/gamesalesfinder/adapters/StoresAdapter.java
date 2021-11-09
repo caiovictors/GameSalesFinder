@@ -20,7 +20,7 @@ public class StoresAdapter {
           new ParameterizedTypeReference<List<Store>>() {
           });
       return response;
-      // List<Store> stores = response.getBody();
+
     } catch (Exception e) {
       Exceptions exception = new Exceptions("Service Unavailable", 503, "External Api is unavailable",
           "CheapShark Api not responding");

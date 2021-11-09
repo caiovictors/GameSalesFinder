@@ -1,12 +1,16 @@
 package com.inatel.gamesalesfinder.controller;
 
+import java.util.Optional;
+
 import javax.transaction.Transactional;
 
 import com.inatel.gamesalesfinder.forms.WishlistForm;
+import com.inatel.gamesalesfinder.models.User;
 import com.inatel.gamesalesfinder.repository.UserRepository;
 import com.inatel.gamesalesfinder.repository.WishlistRepository;
 import com.inatel.gamesalesfinder.services.AddGameToWishlistService;
 import com.inatel.gamesalesfinder.services.GetGameFromWishlistService;
+import com.inatel.gamesalesfinder.services.GetUserByTokenService;
 import com.inatel.gamesalesfinder.services.RemoveGameFromWishlistService;
 
 import org.springframework.data.domain.PageRequest;
@@ -40,20 +44,29 @@ public class WishlistController {
 
     Pageable paging = PageRequest.of(page, size);
 
-    return new GetGameFromWishlistService().execute(userRepository, wishlistRepository, paging);
+    GetUserByTokenService addGameToWishlistByTokenService = new GetUserByTokenService();
+    Optional<User> user = addGameToWishlistByTokenService.run(userRepository);
+
+    return new GetGameFromWishlistService().execute(userRepository, wishlistRepository, paging, user.get());
   }
 
   @PostMapping
   @Transactional
   @ApiOperation(value = "Add game to wishlist", tags = { "Wishlist" })
   public ResponseEntity<?> addGameToWishlist(@RequestBody WishlistForm wishlistForm) {
-    return new AddGameToWishlistService().execute(wishlistRepository, userRepository, wishlistForm);
+    GetUserByTokenService userByToken = new GetUserByTokenService();
+    Optional<User> user = userByToken.run(userRepository);
+
+    return new AddGameToWishlistService().execute(wishlistRepository, userRepository, wishlistForm, user.get());
   }
 
   @DeleteMapping("/{id}")
   @Transactional
   @ApiOperation(value = "Delete from wishlist", tags = { "Wishlist" })
   public ResponseEntity<?> deleteGameFromWishlist(@PathVariable(value = "id") Long id) {
-    return new RemoveGameFromWishlistService().delete(wishlistRepository, userRepository, id);
+    GetUserByTokenService addGameToWishlistByTokenService = new GetUserByTokenService();
+    Optional<User> user = addGameToWishlistByTokenService.run(userRepository);
+
+    return new RemoveGameFromWishlistService().delete(wishlistRepository, userRepository, id, user.get());
   }
 }

@@ -4,9 +4,11 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.Size;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
 
 @Data
+@AllArgsConstructor
 public class SignUpForm {
   @NotEmpty(message = "name is required")
   @Size(min = 6, max = 15, message = "name length must be between 6 and 15")

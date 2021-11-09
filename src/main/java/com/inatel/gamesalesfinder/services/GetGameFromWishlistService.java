@@ -2,7 +2,6 @@ package com.inatel.gamesalesfinder.services;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import com.inatel.gamesalesfinder.dto.WishlistGameDTO;
 import com.inatel.gamesalesfinder.models.BestPriceGame;
@@ -20,11 +19,9 @@ public class GetGameFromWishlistService {
   ResponseEntity<?> apiNotWorking = null;
 
   public ResponseEntity<?> execute(UserRepository userRepository, WishlistRepository wishlistRepository,
-      Pageable paging) {
-    GetUserByTokenService addGameToWishlistByTokenService = new GetUserByTokenService();
-    Optional<User> user = addGameToWishlistByTokenService.run(userRepository);
+      Pageable paging, User user) {
 
-    Page<Wishlist> wishlistPage = wishlistRepository.findByUserId(user.get().getId(), paging);
+    Page<Wishlist> wishlistPage = wishlistRepository.findByUserId(user.getId(), paging);
 
     List<WishlistGameDTO> wishlistGame = new ArrayList<>();
 

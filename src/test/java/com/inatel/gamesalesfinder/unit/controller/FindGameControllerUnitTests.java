@@ -1,35 +1,17 @@
-package com.inatel.gamesalesfinder.controller;
-
-import static org.mockito.Mockito.when;
+package com.inatel.gamesalesfinder.unit.controller;
 
 import com.inatel.gamesalesfinder.services.FindGameService;
 
 import org.junit.Assert;
-import org.junit.jupiter.api.BeforeEach;
+
 import org.junit.jupiter.api.Test;
-import org.mockito.Mockito;
-import org.mockito.MockitoAnnotations;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest
-public class FindGameControllerTests {
-  private Authentication authentication;
-  private SecurityContext securityContext;
-
-  @BeforeEach
-  public void setUp() {
-    MockitoAnnotations.openMocks(this);
-
-    // Authentication
-    authentication = Mockito.mock(Authentication.class);
-    securityContext = Mockito.mock(SecurityContext.class);
-    when(securityContext.getAuthentication()).thenReturn(authentication);
-    SecurityContextHolder.setContext(securityContext);
-  }
+@TestPropertySource(locations = "classpath:application-h2-tests.properties")
+public class FindGameControllerUnitTests {
 
   @Test
   public void shouldFindGame() {

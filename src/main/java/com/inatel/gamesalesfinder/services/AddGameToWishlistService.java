@@ -18,17 +18,15 @@ public class AddGameToWishlistService {
   boolean gameIsPresent = false;
 
   public ResponseEntity<?> execute(WishlistRepository wishlistRepository, UserRepository userRepository,
-      WishlistForm wishlistForm) {
+      WishlistForm wishlistForm, User user) {
     String gameName = wishlistForm.getGameName();
-    GetUserByTokenService userByToken = new GetUserByTokenService();
-    Optional<User> user = userByToken.run(userRepository);
 
     ResponseEntity<?> foundGame = new FindGameService().findGame(gameName);
     if (foundGame.getStatusCode() != HttpStatus.OK) {
       return foundGame;
     }
 
-    List<Optional<Wishlist>> wishlistList = wishlistRepository.findByUserId(user.get().getId());
+    List<Optional<Wishlist>> wishlistList = wishlistRepository.findByUserId(user.getId());
 
     wishlistList.forEach(game -> {
       if (game.get().getGameName().equals(gameName)) {
@@ -42,8 +40,8 @@ public class AddGameToWishlistService {
       return ResponseEntity.status(HttpStatus.CONFLICT).body(exception);
     }
 
-    wishlistRepository.save(new Wishlist(gameName, user.get()));
-    WishlistDTO wishlistDTO = new WishlistDTO(gameName, user.get());
+    wishlistRepository.save(new Wishlist(gameName, user));
+    WishlistDTO wishlistDTO = new WishlistDTO(gameName, user);
 
     return ResponseEntity.status(HttpStatus.CREATED).body(wishlistDTO);
   }

@@ -1,4 +1,4 @@
-package com.inatel.gamesalesfinder.controller;
+package com.inatel.gamesalesfinder.unit.controller;
 
 import static org.mockito.Mockito.when;
 
@@ -27,29 +27,20 @@ import org.springframework.data.domain.PageImpl;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.context.SecurityContext;
-import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.test.context.TestPropertySource;
 
 @SpringBootTest
-public class WishlistControllerTests {
+@TestPropertySource(locations = "classpath:application-h2-tests.properties")
+public class WishlistControllerUnitTests {
   @Autowired
   private UserRepository userRepository;
   private WishlistRepository wishlistRepository;
-
-  private Authentication authentication;
-  private SecurityContext securityContext;
 
   @BeforeEach
   public void setUp() {
     MockitoAnnotations.openMocks(this);
     userRepository = Mockito.mock(UserRepository.class);
     wishlistRepository = Mockito.mock(WishlistRepository.class);
-    authentication = Mockito.mock(Authentication.class);
-    securityContext = Mockito.mock(SecurityContext.class);
-
-    when(securityContext.getAuthentication()).thenReturn(authentication);
-    SecurityContextHolder.setContext(securityContext);
   }
 
   @Test
@@ -62,7 +53,7 @@ public class WishlistControllerTests {
     when(wishlistRepository.save(Mockito.any())).thenReturn(new Wishlist());
 
     ResponseEntity<?> response = new AddGameToWishlistService().execute(wishlistRepository, userRepository,
-        wishlistForm);
+        wishlistForm, user);
     Assert.assertEquals(201, response.getStatusCodeValue());
   }
 
@@ -76,7 +67,8 @@ public class WishlistControllerTests {
     when(userRepository.findByEmail(Mockito.any())).thenReturn(Optional.of(user));
     when(wishlistRepository.findByUserId(user.getId(), pageable)).thenReturn(wishlistPaged);
 
-    ResponseEntity<?> response = new GetGameFromWishlistService().execute(userRepository, wishlistRepository, pageable);
+    ResponseEntity<?> response = new GetGameFromWishlistService().execute(userRepository, wishlistRepository, pageable,
+        user);
     Assert.assertEquals(200, response.getStatusCodeValue());
   }
 
@@ -88,7 +80,7 @@ public class WishlistControllerTests {
     when(wishlistRepository.findById(31L)).thenReturn(Optional.of(wishlist));
 
     RemoveGameFromWishlistService removeGameFromWishlistService = new RemoveGameFromWishlistService();
-    ResponseEntity<?> response = removeGameFromWishlistService.delete(wishlistRepository, userRepository, 31L);
+    ResponseEntity<?> response = removeGameFromWishlistService.delete(wishlistRepository, userRepository, 31L, user);
     Assert.assertEquals(200, response.getStatusCodeValue());
   }
 
@@ -100,7 +92,7 @@ public class WishlistControllerTests {
     when(wishlistRepository.findById(31L)).thenReturn(Optional.of(wishlist));
 
     RemoveGameFromWishlistService removeGameFromWishlistService = new RemoveGameFromWishlistService();
-    ResponseEntity<?> response = removeGameFromWishlistService.delete(wishlistRepository, userRepository, 32L);
+    ResponseEntity<?> response = removeGameFromWishlistService.delete(wishlistRepository, userRepository, 32L, user);
     Assert.assertEquals(404, response.getStatusCodeValue());
   }
 }
