@@ -58,6 +58,20 @@ public class WishlistControllerUnitTests {
   }
 
   @Test
+  public void shouldNotAddToWishlist() {
+    User user = new ObjectGenerator().generateUser();
+    WishlistForm wishlistForm = new WishlistForm();
+    wishlistForm.setGameName("Mad Ma");
+
+    when(userRepository.findByEmail(Mockito.any())).thenReturn(Optional.of(user));
+    when(wishlistRepository.save(Mockito.any())).thenReturn(new Wishlist());
+
+    ResponseEntity<?> response = new AddGameToWishlistService().execute(wishlistRepository, userRepository,
+        wishlistForm, user);
+    Assert.assertEquals(404, response.getStatusCodeValue());
+  }
+
+  @Test
   public void shouldGetWishlist() {
     User user = new ObjectGenerator().generateUser();
     Pageable pageable = PageRequest.of(0, 10);
