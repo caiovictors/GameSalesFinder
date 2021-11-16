@@ -29,7 +29,8 @@ The Game Sales Finder is an api that uses the <a href="https://apidocs.cheapshar
 * External api call (CheapShark Api)
 * Game best prices search
 * Wishlist services
-* Tests with Mockito
+* Unit Tests with Mockito
+* Integration Tests
 * Functional tests with Karate on <a href="https://github.com/caiovictors/gamesalesfinder-functional-tests" target="_blank">this repository</a>
   
 ## ⚙ Installation and Running
