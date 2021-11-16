@@ -15,6 +15,7 @@ The Game Sales Finder is an api that uses the <a href="https://apidocs.cheapshar
 * Mockito
 * Docker
 * JWT
+* Karate
 * Swagger
 
 ## 🛠 Requirements
@@ -29,6 +30,7 @@ The Game Sales Finder is an api that uses the <a href="https://apidocs.cheapshar
 * Game best prices search
 * Wishlist services
 * Tests with Mockito
+* Functional tests with Karate on <a href="https://github.com/caiovictors/gamesalesfinder-functional-tests" target="_blank">this repository</a>
   
 ## ⚙ Installation and Running
 * Clone this repository
